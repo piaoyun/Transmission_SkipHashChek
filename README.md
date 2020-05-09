@@ -21,21 +21,16 @@ yum install gcc gcc-c++ m4 make automake libtool gettext openssl-devel libcurl-d
 apt-get install -y build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev ca-certificates libssl-dev pkg-config cmake openssl libssl1.0-dev zip unzip vim
 ```
 
-### 下载源码
+### 下载源码 解压编译
 
 ```Shell
-wget https://github.com/blackyau/Transmission_SkipHashChek/archive/2.94_mod.zip
-```
-
-### 解压编译
-
-```Shell
-unzip Transmission_SkipHashChek-2.94_mod.zip
+wget https://github.com/piaoyun/Transmission_SkipHashChek/archive/2.94_mod.zip
+unzip 2.94_mod.zip
 cd Transmission_SkipHashChek-2.94_mod
 chmod +x autogen.sh
 ./autogen.sh
 make
-sudo make install
+make install
 ```
 
 ## 如何配置
@@ -45,8 +40,11 @@ sudo make install
 ### 创建启动脚本
 
 ```Shell
-sudo vim /etc/systemd/system/transmission.service
+sudo nano /etc/systemd/system/transmission.service
+```
+
 写入以下内容
+```Shell
 [Unit]
 Description=Transmission BitTorrent Daemon
 After=network.target
@@ -80,10 +78,26 @@ systemctl start transmission.service
 systemctl stop transmission.service
 ```
 
+### 查看 Transmission 运行状态
+
+```Shell
+systemctl status transmission.service
+```
+
+```Shell
+● transmission.service - Transmission BitTorrent Daemon
+   Loaded: loaded (/etc/systemd/system/transmission.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-05-08 10:16:02 UTC; 20h ago
+ Main PID: 1024 (transmission-da)
+    Tasks: 5 (limit: 4915)
+   CGroup: /system.slice/transmission.service
+           └─1024 /usr/local/bin/transmission-daemon -f --log-error -g /usr/local/transmission
+```
+
 ### 修改配置文件
 
 ```Shell
-sudo vim /usr/local/transmission/settings.json
+sudo nano /usr/local/transmission/settings.json
 ```
 
 ### 根据自己情况修改以下选项
